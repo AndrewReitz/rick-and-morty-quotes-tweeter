@@ -1,0 +1,51 @@
+import cash.andrew.gradle.WriteConfig
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'net.ltgt.apt' version '0.5'
+}
+
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply from: "$rootDir/gradle/twitterCredentials.gradle"
+
+version = '1.0.0'
+group = 'cash.andrew'
+description = 'Post a Rick and Morty Quote to Twitter'
+
+mainClassName = 'cash.andrew.rickandmorty.Main'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+ext {
+    generatedResourcesDir = file("$buildDir/generated-resources")
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile 'org.twitter4j:twitter4j-core:4.0.5'
+
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'com.google.guava:guava:20.0'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
+
+task writeConfig(type: WriteConfig) {
+    generatedResourcesDir = project.generatedResourcesDir
+    appProperties.putAll(
+        'oAuthConsumerKey': project.oAuthConsumerKey.toString(),
+        'oAuthConsumerSecret': project.oAuthConsumerSecret.toString(),
+        'oAuthAccessToken': project.oAuthAccessToken.toString(),
+        'oAuthAccessTokenSecret': project.oAuthAccessTokenSecret.toString(),
+        'debug': project.debugMode.toString()
+    )
+}
+
+sourceSets.main.resources.srcDir generatedResourcesDir
+processResources.dependsOn writeConfig
+
