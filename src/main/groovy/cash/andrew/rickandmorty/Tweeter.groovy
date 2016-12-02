@@ -48,26 +48,4 @@ class Tweeter {
     this.tweet(message.substring(startIndex, message.length()))
     this.tweet(message.substring(0, startIndex) + tweetSeparator)
   }
-
-//  void tweet(String tweet) {
-//    int tweetLengthNoSeparator = TWEET_LENGTH - tweetSeparator.size()
-//    int numberOfTweets = Math.ceil(tweet.size() / TWEET_LENGTH)
-//
-//    def tweetStrings = []
-//    int endIndex = numberOfTweets - 1
-//    (0..endIndex).each {
-//
-//      int stringStart = it * tweetLengthNoSeparator
-//      int stringEnd = (it + 1) * tweetLengthNoSeparator
-//      stringEnd = stringEnd > tweet.size() ? tweet.size() : stringEnd
-//
-//      String addSeparator = (endIndex == it ? '' : tweetSeparator)
-//
-//      tweetStrings << "${tweet.substring(stringStart, stringEnd)}$addSeparator"
-//    }
-//
-//    tweetStrings.reverse().each { String it ->
-//      twitter.updateStatus(it)
-//    }
-//  }
 }
